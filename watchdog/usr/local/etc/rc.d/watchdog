@@ -1,0 +1,49 @@
+#!/bin/sh
+
+. /etc/rc.subr
+
+name=watchdog
+rcvar=watchdog_enable
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+pidfile="/var/run/${name}.pid"
+load_rc_config $name
+: ${watchdog_enable:=no} 
+watchdog_cmd="/usr/local/bin/wd_test"
+watchdog_args="--swt 30"
+
+watchdog_start()
+{
+	echo "Start petting watchdog"
+(
+#echo $$ > /var/run/${name}.pid
+(
+    while true 
+    do
+    (if [ -f $pidfile ]; then
+    else
+    pgrep -f watchdog start > /var/run/${name}.pid
+    fi)
+
+    $watchdog_cmd $watchdog_args
+    sleep 10
+    done) &)
+}
+watchdog_stop()
+{
+        echo "Turning off watchdog"
+    # kill all watchdog process
+    (if [ -f $pidfile ]; then
+        kill -9 $(cat $pidfile)
+        pkill -f watchdog start
+   rm $pidfile
+else
+fi)
+    
+    #disable watchdog, does not persist over reboot if BIOS has watchdog enabled
+    $watchdog_cmd --stop
+}
+#disable watchdog just in case BIOS has watchdog enabled
+$watchdog_cmd --stop
+run_rc_command "$1"
