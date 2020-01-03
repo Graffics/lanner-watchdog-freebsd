@@ -19,6 +19,8 @@ watchdog_start()
 (
 #echo $$ > /var/run/${name}.pid
 (
+    $watchdog_cmd --srbd 1
+    $watchdog_cmd --srbd 2
     while true 
     do
     (if [ -f $pidfile ]; then
