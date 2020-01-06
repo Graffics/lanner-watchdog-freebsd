@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# BEFORE: networking
 . /etc/rc.subr
 
 name=watchdog
@@ -45,6 +45,10 @@ fi)
     
     #disable watchdog, does not persist over reboot if BIOS has watchdog enabled
     $watchdog_cmd --stop
+    $watchdog_cmd --srbe 1
+    $watchdog_cmd --srbe 2
+
+
 }
 #disable watchdog just in case BIOS has watchdog enabled
 $watchdog_cmd --stop
