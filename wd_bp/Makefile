@@ -3,7 +3,7 @@
 # This is suitable for DOS environment or evaluation purpose in Linux.
 # Set to 0 to leave IO access to driver for noraml operation.
 #
-DIRECT_IO_ACCESS=1
+DIRECT_IO_ACCESS=0
 
 
 .if $(DIRECT_IO_ACCESS) == 1
