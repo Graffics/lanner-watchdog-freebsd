@@ -59,6 +59,10 @@
 #endif
 #endif
 
+int read_sb_gpio(int reg);
+int write_sb_gpio(unsigned int reg, unsigned int value);
+
+void delay(unsigned int);
 
 void enter_w83627_config(void);
 void exit_w83627_config(void);
